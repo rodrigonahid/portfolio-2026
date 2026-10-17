@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rodrigo Nahid — Resume</title>
+<meta name="description" content="Rodrigo Nahid — Tech Lead. Software development, AI products and team leadership. Full resume: experience, stack and education." />
+<link rel="canonical" href="https://rodrigonahid.com.br/resume" />
+<meta name="robots" content="index, follow" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #000000;
+    --bg-alt: #0a0a0a;
+    --raised: #141414;
+    --text: #ececec;
+    --muted: #a3a3ab;
+    --accent: #00a877;
+    --accent-text: #35d3a2;
+    --border: #222222;
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --edge: calc(clamp(16px, 1.6vw, 24px) + clamp(0px, (100vw - 640px)*.07, 25px));
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: clamp(15px, 1.1vw, 16.5px);
+    line-height: 1.6;
+  }
+  .wrap { margin-left: var(--edge); margin-right: var(--edge); max-width: 900px; }
+
+  /* ── header ── */
+  header { padding: clamp(48px, 7vw, 88px) 0 10px; }
+  .kicker {
+    font-size: 11.5px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent-text); margin: 0 0 14px;
+  }
+  h1 {
+    font-size: clamp(34px, 4.6vw, 54px); font-weight: 800; letter-spacing: -.03em;
+    line-height: 1.02; margin: 0;
+  }
+  .sub { margin-top: 16px; max-width: 58ch; color: var(--muted); font-size: clamp(15px, 1.35vw, 19px); }
+  .contact-line { margin-top: 22px; font-size: 13px; color: var(--muted); }
+  .contact-line a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .contact-line a:hover { color: var(--accent-text); border-color: var(--accent-text); }
+
+  /* ── sections ── */
+  section { border-top: 1px solid var(--border); padding: clamp(28px, 4vw, 44px) 0 8px; margin-top: clamp(28px, 4vw, 44px); }
+  h2 {
+    font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent-text); margin: 0 0 22px;
+  }
+  h3 { font-size: clamp(19px, 2vw, 22px); font-weight: 700; letter-spacing: -.015em; margin: 0; }
+  .role { color: var(--text); }
+  .meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .meta .sep { margin: 0 8px; color: var(--border); }
+
+  .entry { margin-bottom: 34px; }
+  .entry:last-child { margin-bottom: 8px; }
+  .entry p { color: var(--muted); margin: 10px 0 0; max-width: 68ch; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding: 0; list-style: none; }
+  .tags li {
+    font-size: 12px; font-weight: 500; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 99px; padding: 4px 11px;
+  }
+
+  /* ── grid ── */
+  .cols { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(20px, 4vw, 48px); }
+  .col-title {
+    font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); margin: 26px 0 10px;
+  }
+  ul.plain { margin: 0; padding: 0; list-style: none; }
+  ul.plain li { padding: 5px 0; color: var(--muted); font-size: 14px; }
+  ul.plain li::before { content: "— "; color: var(--border); }
+
+  footer { border-top: 1px solid var(--border); margin-top: 44px; padding: 26px 0 48px; font-size: 12px; color: var(--muted); }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  .back {
+    position: fixed; top: 18px; left: var(--edge); z-index: 10;
+    font-size: 12.5px; font-weight: 500; color: var(--muted); text-decoration: none;
+    background: rgba(0,0,0,.7); backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 99px; padding: 8px 16px;
+    transition: color .2s var(--ease), border-color .2s var(--ease);
+  }
+  .back:hover { color: var(--text); border-color: var(--muted); }
+
+  @media print {
+    body { background: #fff; color: #111; font-size: 11pt; }
+    .back { display: none; }
+    :root { --bg: #fff; --bg-alt: #fff; --text: #111; --muted: #555; --accent: #065f46; --accent-text: #065f46; --border: #ddd; }
+    .entry p, ul.plain li, .meta { color: #444; }
+    section { page-break-inside: avoid; }
+    a { color: #111 !important; }
+  }
+  @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="back" href="/">← rodrigonahid.com.br</a>
+
+<div class="wrap">
+<header>
+  <p class="kicker">Resume &middot; 2026</p>
+  <h1>Rodrigo Nahid</h1>
+  <p class="sub">Tech Lead at Automate Army — software development, AI products and team leadership. Full-stack engineer with five years shipping production web apps, from agency WordPress to React/Django systems and AI-powered products.</p>
+  <p class="contact-line">
+    <a href="mailto:rodrigonahid1@gmail.com">rodrigonahid1@gmail.com</a>
+    &middot; Foz do Igua&ccedil;u, PR &middot; State College, PA (Automate Army)
+    <br>
+    <a href="https://www.linkedin.com/in/rodrigo-nahid/" target="_blank" rel="noopener">LinkedIn</a>
+    &middot; <a href="https://github.com/rodrigonahid" target="_blank" rel="noopener">GitHub</a>
+    &middot; <a href="/">Portfolio</a>
+  </p>
+</header>
+
+<section id="experience">
+  <h2>Experience</h2>
+
+  <div class="entry">
+    <h3 class="role">Tech Lead</h3>
+    <p class="meta">Automate Army<span class="sep">·</span>May 2025 — Present<span class="sep">·</span>State College, PA / Remote</p>
+    <p>Leading the technical team while staying hands-on: architecture decisions, code reviews and team management, plus building the product itself — AI-powered applications shipped to production. MCP integrations and LLM features with human-in-the-loop guardrails.</p>
+    <ul class="tags"><li>Team Management</li><li>Architecture</li><li>MCP</li><li>LLM Integration</li><li>React</li><li>TypeScript</li></ul>
+  </div>
+
+  <div class="entry">
+    <h3 class="role">Software Engineer</h3>
+    <p class="meta">The SilverLogic<span class="sep">·</span>May 2022 — Apr 2025<span class="sep">·</span>Boca Raton, FL / Remote</p>
+    <p>Full-stack development and maintenance of client applications: React and TypeScript on the front, Django APIs on the back, Docker for containerized deploys. Active in code reviews, sprint planning and architecture decisions for scalable, high-performance products.</p>
+    <ul class="tags"><li>React</li><li>TypeScript</li><li>Django</li><li>Docker</li><li>PostgreSQL</li><li>AWS</li></ul>
+  </div>
+
+  <div class="entry">
+    <h3 class="role">Front-end Developer</h3>
+    <p class="meta">Seox &middot; Ag&ecirc;ncia Digital<span class="sep">·</span>Feb 2021 — Apr 2022<span class="sep">·</span>Volta Redonda, RJ</p>
+    <p>Started with WordPress theme development — Sass and vanilla JavaScript. Rode the agency&rsquo;s modernization into the headless model: specialized in React, building sites, e-commerce, blogs and portals on Next.js for performance and SEO.</p>
+    <ul class="tags"><li>WordPress</li><li>Sass</li><li>JavaScript</li><li>React</li><li>Next.js</li><li>Headless</li></ul>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Selected projects</h2>
+  <div class="entry">
+    <h3 class="role">Liftstrict — gym progress tracker</h3>
+    <p class="meta">React 19 + Django REST<span class="sep">·</span>2025</p>
+    <p>Workouts, sessions, sets and automatic personal records (estimated 1RM), plus body-weight tracking with goals. <a href="https://github.com/rodrigonahid/liftstrict-web" target="_blank" rel="noopener" style="color:var(--accent-text)">github.com/rodrigonahid/liftstrict-web</a></p>
+  </div>
+  <div class="entry">
+    <h3 class="role">Nutrify — nutrition platform</h3>
+    <p class="meta">Next.js 16 + Drizzle + PostgreSQL<span class="sep">·</span>2026</p>
+    <p>Multi-role platform connecting nutritionists and patients: meal plans, progress tracking and a full training module. <a href="https://github.com/rodrigonahid/nutrify" target="_blank" rel="noopener" style="color:var(--accent-text)">github.com/rodrigonahid/nutrify</a></p>
+  </div>
+</section>
+
+<section id="stack">
+  <h2>Stack</h2>
+  <div class="cols">
+    <div>
+      <p class="col-title">Engineering</p>
+      <ul class="plain">
+        <li>TypeScript, React, Next.js, NestJS, Node.js</li>
+        <li>Python, Django, Django REST Framework</li>
+        <li>PostgreSQL, Drizzle ORM, Docker, AWS, GCP</li>
+      </ul>
+    </div>
+    <div>
+      <p class="col-title">AI &amp; tooling</p>
+      <ul class="plain">
+        <li>MCP servers &amp; integrations</li>
+        <li>LLM integration, RAG pipelines</li>
+        <li>Vector databases, AI agents</li>
+        <li>Claude &amp; Cursor workflows</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <h2>Education</h2>
+  <div class="entry">
+    <h3 class="role">Computer Science</h3>
+    <p class="meta">2020 — 2021</p>
+    <p>Algorithms, data structures and software fundamentals — the formal base before the first industry role.</p>
+  </div>
+</section>
+
+<footer>
+  <a href="/">rodrigonahid.com.br</a> &middot; printable — Ctrl/Cmd+P for PDF &middot; &copy; 2026 Rodrigo Nahid
+</footer>
+</div>
+</body>
+</html>
