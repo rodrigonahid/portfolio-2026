@@ -625,6 +625,256 @@
     footer .foot-top:hover { color: var(--text); }
     footer .foot-top:hover svg { transform: translateY(-3px); }
     @media (max-width: 640px) { footer { grid-template-columns: 1fr auto; } footer .foot-mid { display: none; } }
+
+    /* ── PROJECT SHOWCASE ────────────────── */
+    /* Material 3 ideas in the site's own palette: tonal surfaces, state layers, filled and
+       outlined buttons, assist chips and a dialog. Rounded corners only on the interactive
+       parts (buttons, chips, the dialog), so the section still sits on the square grid. */
+    .sc {
+      display: grid; grid-template-columns: 1.3fr 1fr;
+      background: var(--bg); border: 1px solid var(--border);
+      transition: border-color .25s, box-shadow .35s var(--ease);
+    }
+    .sc:hover { border-color: var(--border-strong); box-shadow: var(--shadow-card); }
+
+    .sc-media {
+      position: relative; overflow: hidden; cursor: pointer;
+      padding: clamp(22px, 3vw, 40px) clamp(22px, 3vw, 40px) clamp(48px, 5vw, 64px);
+      background:
+        radial-gradient(120% 90% at 0% 0%, rgba(53,211,162,.16), transparent 55%),
+        radial-gradient(90% 80% at 100% 100%, rgba(53,211,162,.08), transparent 60%),
+        var(--bg-alt);
+      border: 0; text-align: left; color: inherit; font: inherit; display: block; width: 100%;
+    }
+    .sc-browser {
+      position: relative; isolation: isolate; /* keeps the screens' z-index inside the frame */
+      border-radius: 12px; overflow: hidden;
+      background: #0b0b0c; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 30px 70px rgba(0,0,0,.6);
+      transition: transform .5s var(--ease);
+    }
+    .sc-media:hover .sc-browser { transform: translateY(-4px); }
+    .sc-bar {
+      display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px;
+      background: #141416; border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .sc-bar i { width: 9px; height: 9px; border-radius: 50%; background: #2c2c30; }
+    .sc-url {
+      margin: 0 auto; padding: 3px 12px; border-radius: 999px; background: #0b0b0c;
+      font-size: 10.5px; color: var(--muted); letter-spacing: .01em;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .sc-url svg { width: 9px; height: 9px; color: var(--accent-text); }
+    .sc-screens { position: relative; aspect-ratio: 16/10; background: #0b0b0c; }
+    .sc-screens img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left;
+      opacity: 0; z-index: 0;
+    }
+    /* the next screen fades in over the previous one, which stays opaque underneath */
+    .sc-screens img.prev { opacity: 1; z-index: 1; }
+    .sc-screens img.on { opacity: 1; z-index: 2; transition: opacity .8s var(--ease); }
+    .sc-phone {
+      position: absolute; right: clamp(14px, 2.2vw, 30px); bottom: clamp(16px, 2vw, 26px);
+      width: clamp(92px, 11vw, 150px); aspect-ratio: 1170/2532;
+      border-radius: 20px; padding: 5px; background: #111113;
+      border: 1px solid rgba(255,255,255,.12); box-shadow: 0 24px 60px rgba(0,0,0,.7);
+      transition: transform .5s var(--ease); z-index: 1;
+    }
+    .sc-media:hover .sc-phone { transform: translateY(-8px) rotate(-1.5deg); }
+    .sc-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 15px; display: block; }
+    .sc-dots { position: absolute; left: clamp(22px, 3vw, 40px); bottom: clamp(18px, 2vw, 24px); display: flex; gap: 6px; }
+    .sc-dots span { width: 18px; height: 3px; border-radius: 2px; background: rgba(255,255,255,.18); transition: background .3s, width .3s; }
+    .sc-dots span.on { width: 30px; background: var(--accent-text); }
+
+    .sc-body {
+      border-left: 1px solid var(--border); padding: clamp(26px, 3vw, 44px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .sc-title { font-size: clamp(26px, 2.8vw, 36px); font-weight: 400; letter-spacing: -.035em; line-height: 1.05; margin-top: 14px; }
+    .sc-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-top: 14px; max-width: 48ch; }
+    .sc-feats { list-style: none; display: grid; gap: 10px; margin-top: 20px; }
+    .sc-feats li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 13.5px; color: var(--text); line-height: 1.45; }
+    .sc-feats svg {
+      width: 28px; height: 28px; padding: 6px; border-radius: 8px;
+      background: rgba(53,211,162,.1); color: var(--accent-text);
+    }
+    .sc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
+    .m-chip {
+      display: inline-flex; align-items: center; height: 28px; padding: 0 11px;
+      border-radius: 8px; border: 1px solid var(--border-strong);
+      font-size: 12px; color: var(--muted); background: transparent;
+    }
+    .sc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+    /* Material buttons: pill shape, a state layer on hover/press, ripple from script.js */
+    .m-btn {
+      position: relative; overflow: hidden; isolation: isolate;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 40px; padding: 0 20px; border-radius: 999px;
+      font: 500 13.5px/1 'Inter', sans-serif; letter-spacing: .01em; text-decoration: none;
+      cursor: pointer; border: 1px solid transparent; -webkit-tap-highlight-color: transparent;
+      transition: box-shadow .2s, background-color .2s, border-color .2s;
+    }
+    .m-btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; transition: opacity .2s; }
+    .m-btn:hover::before { opacity: .08; }
+    .m-btn:active::before { opacity: .12; }
+    .m-btn svg { width: 16px; height: 16px; flex: none; }
+    .m-btn--filled { background: var(--accent-text); color: #04130d; }
+    .m-btn--filled:hover { box-shadow: 0 2px 10px rgba(53,211,162,.25); }
+    .m-btn--outlined { border-color: var(--border-strong); color: var(--text); background: transparent; }
+    .m-btn--outlined:hover { border-color: #4a4a4f; }
+    .m-btn--text { color: var(--accent-text); background: transparent; padding: 0 14px; }
+    .m-icon-btn {
+      position: relative; overflow: hidden; isolation: isolate;
+      width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: var(--text);
+      display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .m-icon-btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; transition: opacity .2s; }
+    .m-icon-btn:hover::before { opacity: .1; }
+    .m-icon-btn svg { width: 20px; height: 20px; }
+    .m-ripple {
+      position: absolute; border-radius: 50%; pointer-events: none; z-index: -1;
+      background: currentColor; opacity: .2; transform: scale(0); animation: m-ripple .55s var(--ease) forwards;
+    }
+    @keyframes m-ripple { to { transform: scale(1); opacity: 0; } }
+
+    /* thumbnails under the card: each opens the walkthrough at that screen */
+    .sc-strip { display: grid; grid-template-columns: repeat(5, 1fr) minmax(0, 1.25fr); gap: 12px; margin-top: 12px; }
+    .sc-thumb {
+      position: relative; padding: 0; border: 1px solid var(--border); background: var(--bg);
+      cursor: pointer; text-align: left; color: inherit; font: inherit; overflow: hidden;
+      transition: border-color .25s;
+    }
+    .sc-thumb:hover { border-color: var(--border-strong); }
+    .sc-thumb img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top left; transition: transform .4s var(--ease); }
+    .sc-thumb:hover img { transform: scale(1.04); }
+    .sc-thumb span {
+      display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px;
+      border-top: 1px solid var(--border); font-size: 12px; color: var(--text);
+    }
+    .sc-thumb span em { font-style: normal; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .sc-next {
+      border: 1px dashed var(--border-strong); background: var(--bg);
+      display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 16px 18px;
+    }
+    .sc-next b { font-weight: 500; font-size: 13px; color: var(--text); }
+    .sc-next p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .sc-next .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: sc-pulse 2s ease-in-out infinite; }
+    @keyframes sc-pulse { 50% { opacity: .35; } }
+
+    @media (max-width: 1000px) {
+      .sc { grid-template-columns: 1fr; }
+      .sc-body { border-left: 0; border-top: 1px solid var(--border); }
+      .sc-strip { grid-template-columns: repeat(3, 1fr); }
+      .sc-next { grid-column: span 3; }
+    }
+    @media (max-width: 640px) {
+      .sc-strip {
+        display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px;
+        margin-inline: calc(var(--edge) * -1); padding-inline: var(--edge); scrollbar-width: none;
+      }
+      .sc-strip::-webkit-scrollbar { display: none; }
+      .sc-thumb { flex: 0 0 62%; scroll-snap-align: start; }
+      .sc-next { flex: 0 0 62%; }
+      .sc-phone { width: 82px; }
+      .sc-actions .m-btn { flex: 1 1 auto; }
+    }
+
+    /* ── CASE STUDY DIALOG ───────────────── */
+    .cs {
+      width: min(1240px, calc(100vw - 48px)); max-width: none; height: min(820px, calc(100dvh - 48px)); max-height: none;
+      margin: auto; padding: 0; border: 1px solid var(--border-strong); border-radius: 28px;
+      background: #0d0d0e; color: var(--text); overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0,0,0,.75);
+    }
+    .cs[open] { display: grid; grid-template-rows: auto auto 1fr; animation: cs-in .32s var(--ease); }
+    .cs::backdrop { background: rgba(0,0,0,.72); backdrop-filter: blur(6px); animation: cs-fade .32s var(--ease); }
+    @keyframes cs-in { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+    @keyframes cs-fade { from { opacity: 0; } }
+    .cs-top { display: flex; align-items: center; gap: 8px; padding: 12px 16px 6px 12px; }
+    .cs-top h3 { font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+    .cs-top p { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cs-top .grow { flex: 1; min-width: 0; }
+    .cs-tabs { display: flex; gap: 4px; padding: 0 20px; border-bottom: 1px solid var(--border); }
+    .cs-tab {
+      position: relative; height: 44px; padding: 0 16px; background: transparent; border: 0; cursor: pointer;
+      font: 500 13.5px/1 'Inter', sans-serif; color: var(--muted); overflow: hidden; isolation: isolate;
+    }
+    .cs-tab::before { content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; transition: opacity .2s; }
+    .cs-tab:hover::before { opacity: .06; }
+    .cs-tab[aria-selected="true"] { color: var(--accent-text); }
+    .cs-tab[aria-selected="true"]::after {
+      content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent-text);
+    }
+    .cs-panel { min-height: 0; overflow: auto; }
+    .cs-panel[hidden] { display: none; }
+
+    .cs-walk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: 100%; min-height: 0; }
+    .cs-stage { position: relative; display: flex; flex-direction: column; min-height: 0; padding: 20px; gap: 14px; }
+    .cs-view {
+      position: relative; flex: 1; min-height: 0; border-radius: 16px; overflow: hidden;
+      background: radial-gradient(100% 80% at 0% 0%, rgba(53,211,162,.1), transparent 60%), #060607;
+      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+      touch-action: pan-y;
+    }
+    .cs-view img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; transition: opacity .25s; }
+    .cs-view img.portrait { height: 100%; width: auto; padding: 18px 0; }
+    .cs-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(20,20,22,.82); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.08);
+    }
+    .cs-nav.prev { left: 12px; }
+    .cs-nav.next { right: 12px; }
+    .cs-nav:disabled { opacity: .35; cursor: default; }
+    .cs-caption h4 { font-size: 17px; font-weight: 500; letter-spacing: -.02em; }
+    .cs-caption p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-top: 4px; max-width: 80ch; }
+    .cs-count { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; margin-left: auto; }
+    .cs-caption-head { display: flex; align-items: baseline; gap: 12px; }
+
+    .cs-steps { list-style: none; border-left: 1px solid var(--border); padding: 12px; overflow: auto; min-height: 0; }
+    .cs-step {
+      position: relative; isolation: isolate; overflow: hidden;
+      display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: center;
+      width: 100%; padding: 10px 12px; border: 0; border-radius: 999px; background: transparent;
+      color: var(--text); font: 400 13.5px/1.3 'Inter', sans-serif; text-align: left; cursor: pointer;
+    }
+    .cs-step::before { content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; transition: opacity .2s; }
+    .cs-step:hover::before { opacity: .06; }
+    .cs-step b {
+      width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11.5px; font-weight: 600; color: var(--muted); background: var(--raised); font-variant-numeric: tabular-nums;
+    }
+    .cs-step[aria-current="true"] { background: rgba(53,211,162,.12); color: var(--accent-text); }
+    .cs-step[aria-current="true"] b { background: var(--accent-text); color: #04130d; }
+
+    .cs-over { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; padding: 28px clamp(20px, 3vw, 36px) 36px; }
+    .cs-over h4 { font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #a7f3d0; margin: 22px 0 10px; }
+    .cs-over h4:first-child { margin-top: 0; }
+    .cs-over p, .cs-over li { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .cs-over ul { padding-left: 18px; display: grid; gap: 6px; }
+    .cs-over li strong { color: var(--text); font-weight: 500; }
+    .cs-card { border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; background: var(--bg-alt); }
+    .cs-card + .cs-card { margin-top: 12px; }
+    .cs-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    @media (max-width: 900px) {
+      .cs { width: 100vw; height: 100dvh; border-radius: 0; border: 0; }
+      .cs-walk { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+      .cs-stage { padding: 12px 12px 6px; justify-content: flex-start; overflow: auto; }
+      .cs-view { flex: none; aspect-ratio: 16/10; }
+      .cs-view.is-portrait { aspect-ratio: auto; height: min(62dvh, 560px); }
+      .cs-step { white-space: nowrap; }
+      .cs-steps { display: flex; gap: 6px; border-left: 0; border-top: 1px solid var(--border); overflow-x: auto; padding: 10px 12px; scrollbar-width: none; }
+      .cs-step { width: auto; flex: none; grid-template-columns: 24px auto; padding: 6px 12px 6px 6px; }
+      .cs-step b { width: 24px; height: 24px; font-size: 10.5px; }
+      .cs-nav { display: none; }
+      .cs-over { grid-template-columns: 1fr; padding: 20px 16px 28px; }
+      .cs-tabs { padding: 0 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sc-screens img, .sc-browser, .sc-phone, .cs[open], .cs::backdrop, .m-ripple, .sc-next .dot { transition: none; animation: none; }
+    }
   </style>
   <script>
     document.documentElement.classList.add('js');
@@ -940,65 +1190,268 @@
       return raw.split('/').map(encodeURIComponent).join('/');
     }
 
+    const IMG = "assets/Projects/carteira/";
+
+    // One entry per project. `featured` gets the showcase and the case-study dialog;
+    // any others render as cards in the grid below it.
     const PROJECTS = [
       {
-        slug: "liftstrict", title: "Liftstrict", year: "2025",
-        cat: "Full-stack · React + Django", featured: true,
-        blurb: "A gym progress tracker: workouts, sessions, sets and automatic PRs (estimated 1RM), plus body-weight tracking with goals. React 19 + Django REST API.",
-        tags: ["React", "TypeScript", "Django", "DRF"],
-        thumb: "assets/Projects/liftstrict/liftstrict-session.png",
-        link: "https://github.com/rodrigonahid/liftstrict-web"
-      },
-      {
-        slug: "nutrify", title: "Nutrify", year: "2026",
-        cat: "Full-stack · Next.js",
-        link: "https://github.com/rodrigonahid/nutrify",
-        thumb: "assets/Projects/portfolio-hero.png"
-      },
-      {
-        slug: "rodrigonahid", title: "This portfolio", year: "2026",
-        cat: "Static · hand-built design system",
-        link: "https://github.com/rodrigonahid/portfolio",
-        thumb: "assets/Projects/portfolio-hero.png"
+        slug: "carteira", title: "Carteira", year: "2026",
+        cat: "Full-stack · Next.js + PostgreSQL", featured: true,
+        live: "https://carteira.rodrigonahid.com.br",
+        blurb: "A personal investment tracker for Brazilian (B3) and US stocks. It imports broker statements, computes average cost the way the Brazilian tax authority does, tracks dividends and gives you TradingView-style watchlists — with accounts and Google sign-in.",
+        feats: [
+          ["import", "Imports B3 spreadsheets and Avenue PDF statements, all-or-nothing"],
+          ["calc", "Average price, realized P&L and returns in BRL with each day's dollar rate"],
+          ["list", "TradingView-style watchlists: split view, tabs, drag to reorder"],
+          ["eye", "Privacy mode that hides every amount for use in public"]
+        ],
+        tags: ["Next.js 15", "React 19", "TypeScript", "PostgreSQL", "Better Auth", "Lightweight Charts", "Docker", "Caddy"],
+        hero: ["dashboard", "watchlists", "dividends", "privacy"],
+        steps: [
+          ["dashboard", "Dashboard", "Net worth, invested capital, unrealized and realized P&L, dividends and total return, over a daily evolution chart since the first trade — US holdings converted with each day's USD/BRL."],
+          ["asset", "Asset chart", "Candles and volume with TradingView Lightweight Charts, the user's average price drawn as a line, and ranges from one month to the full history."],
+          ["positions", "Positions", "The average-cost method used by the Receita Federal, split-adjusted quantities, cost in BRL at the rate of each purchase, dividends received and portfolio weight per holding."],
+          ["watchlists", "Watchlists", "A split view like TradingView: chart on the left, lists on the right as browser-style tabs. Sortable columns, 52-week range, dividend yield and drag to reorder; “My assets” follows the portfolio, one list per market."],
+          ["search", "Symbol search", "Debounced Yahoo search with idle, loading, empty and error states, market filters and add/remove without leaving the dropdown. “/” focuses it and the arrow keys move through results."],
+          ["dividends", "Dividends", "Received per month with period filters, a twelve-month forecast from each holding's payout history, and dividends found on Yahoo for the shares held on every ex-date."],
+          ["import", "Imports", "B3 spreadsheets (trades, movements, positions), Avenue CSV and monthly PDF statements parsed by text position. A preview flags duplicates, and the save is atomic: one oversold position rejects the whole file."],
+          ["privacy", "Privacy mode", "One tap replaces every personal amount with dots, like banking apps; market prices and percentages stay. The choice is read on the server, so values never flash on load."],
+          ["mobile", "On the phone", "The same app on a phone: cards reflow to two columns, tables scroll inside their cards and the navigation scrolls sideways.", "portrait"],
+          ["login", "Accounts", "E-mail and password or Google through Better Auth, sessions in Postgres. Every query is scoped to the signed-in user, and every API route requires a session."]
+        ],
+        overview: `
+          <div>
+            <h4>The problem</h4>
+            <p>Brokers show what you own with them, not your whole portfolio, and Brazilian investors also need the average cost the tax authority expects, dividends per payment and US holdings in reais. Spreadsheets do it, until they don't.</p>
+            <h4>What I built</h4>
+            <ul>
+              <li><strong>Portfolio engine</strong> that replays every trade in order: average cost, realized P&amp;L, splits from Yahoo applied to past quantities, and FX of each trade date for US stocks.</li>
+              <li><strong>Importers</strong> for B3 spreadsheets and Avenue statements — including PDFs read by text position — with a preview, duplicate detection and one database transaction per import.</li>
+              <li><strong>Watchlists</strong> modelled on TradingView, synced with the portfolio, with per-user order and hidden items.</li>
+              <li><strong>Accounts</strong> with Better Auth (e-mail and Google); data isolated per user in every query and route.</li>
+            </ul>
+            <h4>Shipping it</h4>
+            <p>Docker Compose with Postgres on a small VPS, behind Caddy with automatic HTTPS. Market data comes from Yahoo's public endpoints, cached on the server.</p>
+          </div>
+          <div>
+            <div class="cs-card">
+              <h4>Stack</h4>
+              <div class="cs-stack">${["Next.js 15 (App Router)", "React 19", "TypeScript", "Tailwind CSS 4", "PostgreSQL", "node-postgres", "Better Auth", "Lightweight Charts", "unpdf", "SheetJS", "Docker", "Caddy"].map(t => `<span class="m-chip">${t}</span>`).join("")}</div>
+            </div>
+            <div class="cs-card">
+              <h4>Details I liked</h4>
+              <ul>
+                <li>Yahoo sometimes sends a candle with a low of zero; it's repaired before it reaches a chart.</li>
+                <li>Watchlist rows fetch in one request per list and keep the previous range dimmed while the new one loads.</li>
+                <li>The privacy choice lives in a cookie so the server renders the page already hidden.</li>
+              </ul>
+            </div>
+          </div>`
       }
     ];
 
-    // ── FEATURED PROJECT ──────────────────
+    const ICONS = {
+      import: '<path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
+      calc: '<path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6"/>',
+      list: '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+      eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>'
+    };
+    const icon = (name) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+    const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    const OUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── FEATURED PROJECT: showcase + strip ──
     const featured = PROJECTS.find(p => p.featured);
     if (featured) {
-      const fx = document.getElementById('featured');
-      fx.innerHTML = `
-        <a class="featured" href="${featured.link}" target="_blank" rel="noopener noreferrer">
-          <div class="featured-media">
-            <img src="${ep(featured.thumb)}" alt="${featured.title}" width="1600" height="900" loading="eager"
-                 onerror="this.style.display='none'" />
-          </div>
-          <div class="featured-body">
-            <p class="featured-label"><span class="dot"></span>Featured project &middot; 01</p>
-            <h3 class="featured-title">${featured.title}</h3>
-            <p class="featured-meta">${featured.cat}, ${featured.year}</p>
-            <p class="featured-desc">${featured.blurb}</p>
-            <div class="featured-tags">
-              ${featured.tags.map(t => `<span class="featured-tag">${t}</span>`).join('')}
+      const host = new URL(featured.live).host;
+      const stepIndex = Object.fromEntries(featured.steps.map((s, i) => [s[0], i]));
+      document.getElementById('featured').innerHTML = `
+        <article class="sc">
+          <button class="sc-media" type="button" data-open="0" aria-label="Open the ${featured.title} walkthrough">
+            <div class="sc-browser">
+              <div class="sc-bar" aria-hidden="true"><i></i><i></i><i></i>
+                <span class="sc-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${host}</span>
+              </div>
+              <div class="sc-screens">
+                ${featured.hero.map((k, i) => `<img src="${IMG}${k}.webp" alt="" ${i ? 'loading="lazy"' : 'loading="eager"'} class="${i ? '' : 'on'}" width="1600" height="1000">`).join('')}
+              </div>
             </div>
-            <span class="featured-cta">
-              View project
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                <path d="M1.5 6.5h10M6.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
+            <div class="sc-phone" aria-hidden="true"><img src="${IMG}mobile-thumb.webp" alt="" loading="lazy" width="320" height="692"></div>
+            <div class="sc-dots" aria-hidden="true">${featured.hero.map((_, i) => `<span class="${i ? '' : 'on'}"></span>`).join('')}</div>
+          </button>
+          <div class="sc-body">
+            <p class="featured-label"><span class="dot"></span>Featured project &middot; 01</p>
+            <h3 class="sc-title">${featured.title}</h3>
+            <p class="featured-meta">${featured.cat}, ${featured.year}</p>
+            <p class="sc-desc">${featured.blurb}</p>
+            <ul class="sc-feats">${featured.feats.map(([ic, t]) => `<li>${icon(ic)}<span>${t}</span></li>`).join('')}</ul>
+            <div class="sc-chips">${featured.tags.map(t => `<span class="m-chip">${t}</span>`).join('')}</div>
+            <div class="sc-actions">
+              <button class="m-btn m-btn--filled" type="button" data-open="0">View case study ${ARROW}</button>
+              <a class="m-btn m-btn--outlined" href="${featured.live}" target="_blank" rel="noopener noreferrer">Open live app ${OUT}</a>
+            </div>
           </div>
-        </a>`;
+        </article>
+        <div class="sc-strip">
+          ${["dashboard", "watchlists", "dividends", "import", "privacy"].map(k => {
+            const i = stepIndex[k];
+            return `<button class="sc-thumb" type="button" data-open="${i}">
+              <img src="${IMG}${k}-thumb.webp" alt="" loading="lazy" width="720" height="450">
+              <span>${featured.steps[i][1]}<em>${String(i + 1).padStart(2, '0')}</em></span>
+            </button>`;
+          }).join('')}
+          <div class="sc-next"><span class="dot" aria-hidden="true"></span><b>Next case study in progress</b><p>More projects are on the way. This section grows with them.</p></div>
+        </div>`;
+
+      // the browser mock cycles through a few screens; pauses on hover and off-screen
+      const media = document.querySelector('.sc-media');
+      const imgs = [...media.querySelectorAll('.sc-screens img')];
+      const dots = [...media.querySelectorAll('.sc-dots span')];
+      let cur = 0, paused = false, visible = true;
+      if (!reduceMotion) {
+        media.addEventListener('mouseenter', () => (paused = true));
+        media.addEventListener('mouseleave', () => (paused = false));
+        new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(media);
+        setInterval(() => {
+          if (paused || !visible || document.hidden) return;
+          imgs.forEach(img => img.classList.remove('prev'));
+          imgs[cur].classList.replace('on', 'prev'); dots[cur].classList.remove('on');
+          cur = (cur + 1) % imgs.length;
+          imgs[cur].classList.add('on'); dots[cur].classList.add('on');
+        }, 3200);
+      }
+      // the mock opens the walkthrough on the screen it's showing
+      media.addEventListener('click', () => openCase(stepIndex[featured.hero[cur]]));
+      document.querySelectorAll('#featured [data-open]:not(.sc-media)').forEach(b =>
+        b.addEventListener('click', () => openCase(+b.dataset.open)));
+
+      // ── CASE STUDY DIALOG ──
+      const dlg = document.createElement('dialog');
+      dlg.className = 'cs';
+      dlg.setAttribute('aria-labelledby', 'cs-title');
+      dlg.innerHTML = `
+        <header class="cs-top">
+          <button class="m-icon-btn" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          <div class="grow"><h3 id="cs-title">${featured.title}</h3><p>${featured.cat} &middot; ${featured.year}</p></div>
+          <a class="m-btn m-btn--text" href="${featured.live}" target="_blank" rel="noopener noreferrer">Open app ${OUT}</a>
+        </header>
+        <div class="cs-tabs" role="tablist">
+          <button class="cs-tab" role="tab" type="button" id="cs-tab-walk" aria-controls="cs-walk" aria-selected="true">Walkthrough</button>
+          <button class="cs-tab" role="tab" type="button" id="cs-tab-over" aria-controls="cs-over" aria-selected="false" tabindex="-1">Overview</button>
+        </div>
+        <section class="cs-panel" id="cs-walk" role="tabpanel" aria-labelledby="cs-tab-walk">
+          <div class="cs-walk">
+            <div class="cs-stage">
+              <div class="cs-view">
+                <img alt="" id="cs-img">
+                <button class="m-icon-btn cs-nav prev" type="button" aria-label="Previous screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+                <button class="m-icon-btn cs-nav next" type="button" aria-label="Next screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+              </div>
+              <div class="cs-caption" aria-live="polite">
+                <div class="cs-caption-head"><h4 id="cs-step-title"></h4><span class="cs-count" id="cs-count"></span></div>
+                <p id="cs-step-desc"></p>
+              </div>
+            </div>
+            <ol class="cs-steps">${featured.steps.map((s, i) => `<li><button class="cs-step" type="button" data-step="${i}"><b>${String(i + 1).padStart(2, '0')}</b>${s[1]}</button></li>`).join('')}</ol>
+          </div>
+        </section>
+        <section class="cs-panel" id="cs-over" role="tabpanel" aria-labelledby="cs-tab-over" hidden>
+          <div class="cs-over">${featured.overview}</div>
+        </section>`;
+      document.body.appendChild(dlg);
+
+      const $ = (s) => dlg.querySelector(s);
+      const view = $('#cs-img'), steps = [...dlg.querySelectorAll('.cs-step')];
+      const prev = $('.cs-nav.prev'), next = $('.cs-nav.next');
+      let step = 0;
+
+      function show(i) {
+        step = Math.max(0, Math.min(featured.steps.length - 1, i));
+        const [key, title, desc, shape] = featured.steps[step];
+        view.src = `${IMG}${key}.webp`;
+        view.alt = `${featured.title} — ${title}`;
+        view.classList.toggle('portrait', shape === 'portrait');
+        view.parentElement.classList.toggle('is-portrait', shape === 'portrait');
+        $('#cs-step-title').textContent = title;
+        $('#cs-step-desc').textContent = desc;
+        $('#cs-count').textContent = `${step + 1} / ${featured.steps.length}`;
+        prev.disabled = step === 0;
+        next.disabled = step === featured.steps.length - 1;
+        steps.forEach((b, j) => b.setAttribute('aria-current', j === step ? 'true' : 'false'));
+        steps[step].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+        // warm up the neighbours so arrows feel instant
+        [step - 1, step + 1].forEach(j => { if (featured.steps[j]) new Image().src = `${IMG}${featured.steps[j][0]}.webp`; });
+      }
+
+      function selectTab(walk) {
+        $('#cs-tab-walk').setAttribute('aria-selected', walk);
+        $('#cs-tab-over').setAttribute('aria-selected', !walk);
+        $('#cs-tab-walk').tabIndex = walk ? 0 : -1;
+        $('#cs-tab-over').tabIndex = walk ? -1 : 0;
+        $('#cs-walk').hidden = !walk;
+        $('#cs-over').hidden = walk;
+      }
+
+      function openCase(i) {
+        selectTab(true);
+        show(i);
+        dlg.showModal();
+        document.documentElement.style.overflow = 'hidden';
+        history.replaceState(null, '', '#case-' + featured.slug);
+      }
+      dlg.addEventListener('close', () => {
+        document.documentElement.style.overflow = '';
+        if (location.hash === '#case-' + featured.slug) history.replaceState(null, '', location.pathname + location.search);
+      });
+      $('[data-close]').addEventListener('click', () => dlg.close());
+      dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // click on the backdrop
+      prev.addEventListener('click', () => show(step - 1));
+      next.addEventListener('click', () => show(step + 1));
+      steps.forEach((b, i) => b.addEventListener('click', () => show(i)));
+      $('#cs-tab-walk').addEventListener('click', () => selectTab(true));
+      $('#cs-tab-over').addEventListener('click', () => selectTab(false));
+      dlg.addEventListener('keydown', (e) => {
+        if ($('#cs-walk').hidden) return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); show(step + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(step - 1); }
+      });
+      // swipe between screens on touch devices
+      let touchX = null;
+      $('.cs-view').addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), { passive: true });
+      $('.cs-view').addEventListener('touchend', (e) => {
+        if (touchX == null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) show(step + (dx < 0 ? 1 : -1));
+        touchX = null;
+      });
+
+      if (location.hash === '#case-' + featured.slug) openCase(0);
     }
 
+    // ── MATERIAL RIPPLE on buttons ──
+    if (!reduceMotion) {
+      document.addEventListener('pointerdown', (e) => {
+        const el = e.target.closest('.m-btn, .m-icon-btn, .cs-step, .cs-tab');
+        if (!el) return;
+        const r = el.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2;
+        const dot = document.createElement('span');
+        dot.className = 'm-ripple';
+        dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+        el.appendChild(dot);
+        dot.addEventListener('animationend', () => dot.remove());
+      });
+    }
+
+    // other projects, if any, as cards under the showcase
     const grid = document.getElementById('grid');
     PROJECTS.filter(p => !p.featured).forEach((p, i) => {
       const card = document.createElement('a');
       card.className = 'card';
-      card.href = p.link;
+      card.href = p.link || p.live;
       card.target = '_blank';
       card.rel = 'noopener noreferrer';
-      const gh = 'https://github.com/rodrigonahid/' + p.slug;
       card.innerHTML = `
         <div class="card-thumb-wrap" aria-hidden="true">
           <img class="card-thumb" src="${ep(p.thumb)}" alt="${p.title}" loading="lazy"
@@ -1014,7 +1467,7 @@
 
     // the section's fact: how many projects, over which years
     { const ys = PROJECTS.map(p => +p.year), lo = Math.min(...ys), hi = Math.max(...ys), m = document.getElementById('work-meta');
-      if (m) m.textContent = PROJECTS.length + ' projects \u00b7 ' + (lo === hi ? lo : lo + '\u2013' + hi); }
+      if (m) m.textContent = PROJECTS.length === 1 ? 'Case study · ' + lo : PROJECTS.length + ' projects · ' + (lo === hi ? lo : lo + '–' + hi); }
 
     // init slideshows
     document.querySelectorAll('.slideshow-wrap').forEach(wrap => {
