@@ -639,7 +639,7 @@
 
     .sc-media {
       position: relative; overflow: hidden; cursor: pointer;
-      padding: clamp(22px, 3vw, 40px) clamp(22px, 3vw, 40px) clamp(48px, 5vw, 64px);
+      padding: clamp(22px, 3vw, 40px);
       background:
         radial-gradient(120% 90% at 0% 0%, rgba(53,211,162,.16), transparent 55%),
         radial-gradient(90% 80% at 100% 100%, rgba(53,211,162,.08), transparent 60%),
@@ -668,11 +668,7 @@
     .sc-screens { position: relative; aspect-ratio: 16/10; background: #0b0b0c; }
     .sc-screens img {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left;
-      opacity: 0; z-index: 0;
     }
-    /* the next screen fades in over the previous one, which stays opaque underneath */
-    .sc-screens img.prev { opacity: 1; z-index: 1; }
-    .sc-screens img.on { opacity: 1; z-index: 2; transition: opacity .8s var(--ease); }
     .sc-phone {
       position: absolute; right: clamp(14px, 2.2vw, 30px); bottom: clamp(16px, 2vw, 26px);
       width: clamp(92px, 11vw, 150px); aspect-ratio: 1170/2532;
@@ -682,9 +678,6 @@
     }
     .sc-media:hover .sc-phone { transform: translateY(-8px) rotate(-1.5deg); }
     .sc-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 15px; display: block; }
-    .sc-dots { position: absolute; left: clamp(22px, 3vw, 40px); bottom: clamp(18px, 2vw, 24px); display: flex; gap: 6px; }
-    .sc-dots span { width: 18px; height: 3px; border-radius: 2px; background: rgba(255,255,255,.18); transition: background .3s, width .3s; }
-    .sc-dots span.on { width: 30px; background: var(--accent-text); }
 
     .sc-body {
       border-left: 1px solid var(--border); padding: clamp(26px, 3vw, 44px);
@@ -739,44 +732,11 @@
     }
     @keyframes m-ripple { to { transform: scale(1); opacity: 0; } }
 
-    /* thumbnails under the card: each opens the walkthrough at that screen */
-    .sc-strip { display: grid; grid-template-columns: repeat(5, 1fr) minmax(0, 1.25fr); gap: 12px; margin-top: 12px; }
-    .sc-thumb {
-      position: relative; padding: 0; border: 1px solid var(--border); background: var(--bg);
-      cursor: pointer; text-align: left; color: inherit; font: inherit; overflow: hidden;
-      transition: border-color .25s;
-    }
-    .sc-thumb:hover { border-color: var(--border-strong); }
-    .sc-thumb img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top left; transition: transform .4s var(--ease); }
-    .sc-thumb:hover img { transform: scale(1.04); }
-    .sc-thumb span {
-      display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px;
-      border-top: 1px solid var(--border); font-size: 12px; color: var(--text);
-    }
-    .sc-thumb span em { font-style: normal; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .sc-next {
-      border: 1px dashed var(--border-strong); background: var(--bg);
-      display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 16px 18px;
-    }
-    .sc-next b { font-weight: 500; font-size: 13px; color: var(--text); }
-    .sc-next p { font-size: 12px; color: var(--muted); line-height: 1.5; }
-    .sc-next .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: sc-pulse 2s ease-in-out infinite; }
-    @keyframes sc-pulse { 50% { opacity: .35; } }
-
     @media (max-width: 1000px) {
       .sc { grid-template-columns: 1fr; }
       .sc-body { border-left: 0; border-top: 1px solid var(--border); }
-      .sc-strip { grid-template-columns: repeat(3, 1fr); }
-      .sc-next { grid-column: span 3; }
     }
     @media (max-width: 640px) {
-      .sc-strip {
-        display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px;
-        margin-inline: calc(var(--edge) * -1); padding-inline: var(--edge); scrollbar-width: none;
-      }
-      .sc-strip::-webkit-scrollbar { display: none; }
-      .sc-thumb { flex: 0 0 62%; scroll-snap-align: start; }
-      .sc-next { flex: 0 0 62%; }
       .sc-phone { width: 82px; }
       .sc-actions .m-btn { flex: 1 1 auto; }
     }
@@ -873,7 +833,7 @@
       .cs-tabs { padding: 0 8px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .sc-screens img, .sc-browser, .sc-phone, .cs[open], .cs::backdrop, .m-ripple, .sc-next .dot { transition: none; animation: none; }
+      .sc-browser, .sc-phone, .cs[open], .cs::backdrop, .m-ripple { transition: none; animation: none; }
     }
   </style>
   <script>
@@ -1207,7 +1167,6 @@
           ["eye", "Privacy mode that hides every amount for use in public"]
         ],
         tags: ["Next.js 15", "React 19", "TypeScript", "PostgreSQL", "Better Auth", "Lightweight Charts", "Docker", "Caddy"],
-        hero: ["dashboard", "watchlists", "dividends", "privacy"],
         steps: [
           ["dashboard", "Dashboard", "Net worth, invested capital, unrealized and realized P&L, dividends and total return, over a daily evolution chart since the first trade — US holdings converted with each day's USD/BRL."],
           ["asset", "Asset chart", "Candles and volume with TradingView Lightweight Charts, the user's average price drawn as a line, and ranges from one month to the full history."],
@@ -1266,7 +1225,6 @@
     const featured = PROJECTS.find(p => p.featured);
     if (featured) {
       const host = new URL(featured.live).host;
-      const stepIndex = Object.fromEntries(featured.steps.map((s, i) => [s[0], i]));
       document.getElementById('featured').innerHTML = `
         <article class="sc">
           <button class="sc-media" type="button" data-open="0" aria-label="Open the ${featured.title} walkthrough">
@@ -1275,11 +1233,10 @@
                 <span class="sc-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${host}</span>
               </div>
               <div class="sc-screens">
-                ${featured.hero.map((k, i) => `<img src="${IMG}${k}.webp" alt="" ${i ? 'loading="lazy"' : 'loading="eager"'} class="${i ? '' : 'on'}" width="1600" height="1000">`).join('')}
+                <img src="${IMG}dashboard.webp" alt="${featured.title} dashboard" loading="eager" width="1600" height="1000">
               </div>
             </div>
             <div class="sc-phone" aria-hidden="true"><img src="${IMG}mobile-thumb.webp" alt="" loading="lazy" width="320" height="692"></div>
-            <div class="sc-dots" aria-hidden="true">${featured.hero.map((_, i) => `<span class="${i ? '' : 'on'}"></span>`).join('')}</div>
           </button>
           <div class="sc-body">
             <p class="featured-label"><span class="dot"></span>Featured project &middot; 01</p>
@@ -1293,38 +1250,10 @@
               <a class="m-btn m-btn--outlined" href="${featured.live}" target="_blank" rel="noopener noreferrer">Open live app ${OUT}</a>
             </div>
           </div>
-        </article>
-        <div class="sc-strip">
-          ${["dashboard", "watchlists", "dividends", "import", "privacy"].map(k => {
-            const i = stepIndex[k];
-            return `<button class="sc-thumb" type="button" data-open="${i}">
-              <img src="${IMG}${k}-thumb.webp" alt="" loading="lazy" width="720" height="450">
-              <span>${featured.steps[i][1]}<em>${String(i + 1).padStart(2, '0')}</em></span>
-            </button>`;
-          }).join('')}
-          <div class="sc-next"><span class="dot" aria-hidden="true"></span><b>Next case study in progress</b><p>More projects are on the way. This section grows with them.</p></div>
-        </div>`;
+        </article>`;
 
-      // the browser mock cycles through a few screens; pauses on hover and off-screen
-      const media = document.querySelector('.sc-media');
-      const imgs = [...media.querySelectorAll('.sc-screens img')];
-      const dots = [...media.querySelectorAll('.sc-dots span')];
-      let cur = 0, paused = false, visible = true;
-      if (!reduceMotion) {
-        media.addEventListener('mouseenter', () => (paused = true));
-        media.addEventListener('mouseleave', () => (paused = false));
-        new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(media);
-        setInterval(() => {
-          if (paused || !visible || document.hidden) return;
-          imgs.forEach(img => img.classList.remove('prev'));
-          imgs[cur].classList.replace('on', 'prev'); dots[cur].classList.remove('on');
-          cur = (cur + 1) % imgs.length;
-          imgs[cur].classList.add('on'); dots[cur].classList.add('on');
-        }, 3200);
-      }
-      // the mock opens the walkthrough on the screen it's showing
-      media.addEventListener('click', () => openCase(stepIndex[featured.hero[cur]]));
-      document.querySelectorAll('#featured [data-open]:not(.sc-media)').forEach(b =>
+      // the mock and the button both open the walkthrough on the first screen
+      document.querySelectorAll('#featured [data-open]').forEach(b =>
         b.addEventListener('click', () => openCase(+b.dataset.open)));
 
       // ── CASE STUDY DIALOG ──
